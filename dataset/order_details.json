@@ -1,0 +1,45 @@
+{
+	"name": "order_details",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "biolayt_adf",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "order-details.csv",
+				"folderPath": "northwind",
+				"container": "destination"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "orderID",
+				"type": "String"
+			},
+			{
+				"name": "productID",
+				"type": "String"
+			},
+			{
+				"name": "unitPrice",
+				"type": "String"
+			},
+			{
+				"name": "quantity",
+				"type": "String"
+			},
+			{
+				"name": "discount",
+				"type": "String"
+			}
+		]
+	}
+}

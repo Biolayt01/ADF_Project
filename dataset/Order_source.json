@@ -1,0 +1,81 @@
+{
+	"name": "Order_source",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "biolayt_adf",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "orders.csv",
+				"folderPath": "northwind",
+				"container": "destination"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "orderID",
+				"type": "String"
+			},
+			{
+				"name": "customerID",
+				"type": "String"
+			},
+			{
+				"name": "employeeID",
+				"type": "String"
+			},
+			{
+				"name": "orderDate",
+				"type": "String"
+			},
+			{
+				"name": "requiredDate",
+				"type": "String"
+			},
+			{
+				"name": "shippedDate",
+				"type": "String"
+			},
+			{
+				"name": "shipVia",
+				"type": "String"
+			},
+			{
+				"name": "freight",
+				"type": "String"
+			},
+			{
+				"name": "shipName",
+				"type": "String"
+			},
+			{
+				"name": "shipAddress",
+				"type": "String"
+			},
+			{
+				"name": "shipCity",
+				"type": "String"
+			},
+			{
+				"name": "shipRegion",
+				"type": "String"
+			},
+			{
+				"name": "shipPostalCode",
+				"type": "String"
+			},
+			{
+				"name": "shipCountry",
+				"type": "String"
+			}
+		]
+	}
+}
