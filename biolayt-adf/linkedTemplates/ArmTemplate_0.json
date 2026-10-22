@@ -263,6 +263,80 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/copyadwork_source')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "biolayt_adf",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"adwork_filename": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": {
+							"value": "@dataset().adwork_filename",
+							"type": "Expression"
+						},
+						"folderPath": "adworks",
+						"container": "source"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": false,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/biolayt_adf')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/adwork_dest')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "biolayt_adf",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"adwork_dest_filename": {
+						"type": "String"
+					}
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": {
+							"value": "@dataset().adwork_dest_filename",
+							"type": "Expression"
+						},
+						"folderPath": "adwork_data",
+						"container": "destination"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": false,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/biolayt_adf')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/adworks')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -365,10 +439,10 @@
 									},
 									"inputs": [
 										{
-											"referenceName": "copysrc",
+											"referenceName": "copyadwork_source",
 											"type": "DatasetReference",
 											"parameters": {
-												"file": {
+												"adwork_filename": {
 													"value": "@item().name",
 													"type": "Expression"
 												}
@@ -377,11 +451,11 @@
 									],
 									"outputs": [
 										{
-											"referenceName": "destination",
+											"referenceName": "adwork_dest",
 											"type": "DatasetReference",
 											"parameters": {
-												"sinkfilename": {
-													"value": "@item()",
+												"adwork_dest_filename": {
+													"value": "@item().name",
 													"type": "Expression"
 												}
 											}
@@ -395,18 +469,13 @@
 				"policy": {
 					"elapsedTimeMetric": {}
 				},
-				"parameters": {
-					"file": {
-						"type": "String"
-					}
-				},
 				"annotations": [],
 				"lastPublishTime": "2026-10-22T14:24:59Z"
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/source')]",
-				"[concat(variables('factoryId'), '/datasets/copysrc')]",
-				"[concat(variables('factoryId'), '/datasets/destination')]"
+				"[concat(variables('factoryId'), '/datasets/copyadwork_source')]",
+				"[concat(variables('factoryId'), '/datasets/adwork_dest')]"
 			]
 		},
 		{
