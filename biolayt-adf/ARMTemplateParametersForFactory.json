@@ -1,0 +1,21 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "biolayt-adf"
+		},
+		"biolayt_adf_connectionString": {
+			"value": ""
+		},
+		"biolayt_adls_accountKey": {
+			"value": ""
+		},
+		"HttpServer1_properties_typeProperties_url": {
+			"value": "https://raw.githubusercontent.com/"
+		},
+		"biolayt_adls_properties_typeProperties_url": {
+			"value": "https://biolaytstorage.dfs.core.windows.net/"
+		}
+	}
+}
