@@ -1,0 +1,33 @@
+{
+	"name": "destination",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "biolayt_adf",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"sinkfilename": {
+				"type": "String"
+			}
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": {
+					"value": "@dataset().sinkfilename",
+					"type": "Expression"
+				},
+				"folderPath": "northwind",
+				"container": "destination"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": false,
+			"quoteChar": "\""
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,15 @@
+{
+	"name": "biolayt-adf",
+	"properties": {
+		"trustModeClaimForMi": {
+			"value": "Disabled",
+			"editable": true
+		}
+	},
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "3e18888a-cddc-4e0b-a3d1-6558465dd75d",
+		"tenantId": "b10df10e-1896-4446-ac69-b850854c43b5"
+	}
+}
