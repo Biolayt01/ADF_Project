@@ -126,7 +126,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/copysrc')]",
+			"name": "[concat(parameters('factoryName'), '/Order_source')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -134,108 +134,85 @@
 					"referenceName": "biolayt_adf",
 					"type": "LinkedServiceReference"
 				},
-				"parameters": {
-					"file": {
-						"type": "String"
-					}
-				},
 				"annotations": [],
 				"type": "DelimitedText",
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobStorageLocation",
-						"fileName": {
-							"value": "@dataset().file",
-							"type": "Expression"
-						},
-						"folderPath": "adworks",
-						"container": "source"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": false,
-					"quoteChar": "\""
-				},
-				"schema": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/biolayt_adf')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/destination')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "biolayt_adf",
-					"type": "LinkedServiceReference"
-				},
-				"parameters": {
-					"sinkfilename": {
-						"type": "String"
-					}
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobStorageLocation",
-						"fileName": {
-							"value": "@dataset().sinkfilename",
-							"type": "Expression"
-						},
+						"fileName": "orders.csv",
 						"folderPath": "northwind",
 						"container": "destination"
 					},
 					"columnDelimiter": ",",
 					"escapeChar": "\\",
-					"firstRowAsHeader": false,
+					"firstRowAsHeader": true,
 					"quoteChar": "\""
 				},
-				"schema": []
+				"schema": [
+					{
+						"name": "orderID",
+						"type": "String"
+					},
+					{
+						"name": "customerID",
+						"type": "String"
+					},
+					{
+						"name": "employeeID",
+						"type": "String"
+					},
+					{
+						"name": "orderDate",
+						"type": "String"
+					},
+					{
+						"name": "requiredDate",
+						"type": "String"
+					},
+					{
+						"name": "shippedDate",
+						"type": "String"
+					},
+					{
+						"name": "shipVia",
+						"type": "String"
+					},
+					{
+						"name": "freight",
+						"type": "String"
+					},
+					{
+						"name": "shipName",
+						"type": "String"
+					},
+					{
+						"name": "shipAddress",
+						"type": "String"
+					},
+					{
+						"name": "shipCity",
+						"type": "String"
+					},
+					{
+						"name": "shipRegion",
+						"type": "String"
+					},
+					{
+						"name": "shipPostalCode",
+						"type": "String"
+					},
+					{
+						"name": "shipCountry",
+						"type": "String"
+					}
+				]
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/biolayt_adf')]"
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/northwind')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "HttpServer1",
-					"type": "LinkedServiceReference"
-				},
-				"parameters": {
-					"file": {
-						"type": "string"
-					}
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "HttpServerLocation",
-						"relativeUrl": {
-							"value": "@concat('neo4j-contrib/northwind-neo4j/refs/heads/master/data/',dataset().file)",
-							"type": "Expression"
-						}
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": false,
-					"quoteChar": "\""
-				},
-				"schema": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/HttpServer1')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/source')]",
+			"name": "[concat(parameters('factoryName'), '/adwork_dest')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -243,13 +220,22 @@
 					"referenceName": "biolayt_adf",
 					"type": "LinkedServiceReference"
 				},
+				"parameters": {
+					"adwork_dest_filename": {
+						"type": "String"
+					}
+				},
 				"annotations": [],
 				"type": "DelimitedText",
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobStorageLocation",
-						"folderPath": "adworks",
-						"container": "source"
+						"fileName": {
+							"value": "@dataset().adwork_dest_filename",
+							"type": "Expression"
+						},
+						"folderPath": "adwork_data",
+						"container": "destination"
 					},
 					"columnDelimiter": ",",
 					"escapeChar": "\\",
@@ -300,7 +286,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/adwork_dest')]",
+			"name": "[concat(parameters('factoryName'), '/copysrc')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -309,7 +295,7 @@
 					"type": "LinkedServiceReference"
 				},
 				"parameters": {
-					"adwork_dest_filename": {
+					"file": {
 						"type": "String"
 					}
 				},
@@ -319,11 +305,264 @@
 					"location": {
 						"type": "AzureBlobStorageLocation",
 						"fileName": {
-							"value": "@dataset().adwork_dest_filename",
+							"value": "@dataset().file",
 							"type": "Expression"
 						},
-						"folderPath": "adwork_data",
+						"folderPath": "adworks",
+						"container": "source"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": false,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/biolayt_adf')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/customer_tbl')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "biolayt_adf",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "customers.csv",
+						"folderPath": "northwind",
 						"container": "destination"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "customerID",
+						"type": "String"
+					},
+					{
+						"name": "companyName",
+						"type": "String"
+					},
+					{
+						"name": "contactName",
+						"type": "String"
+					},
+					{
+						"name": "contactTitle",
+						"type": "String"
+					},
+					{
+						"name": "address",
+						"type": "String"
+					},
+					{
+						"name": "city",
+						"type": "String"
+					},
+					{
+						"name": "region",
+						"type": "String"
+					},
+					{
+						"name": "postalCode",
+						"type": "String"
+					},
+					{
+						"name": "country",
+						"type": "String"
+					},
+					{
+						"name": "phone",
+						"type": "String"
+					},
+					{
+						"name": "fax",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/biolayt_adf')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/destination')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "biolayt_adf",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"sinkfilename": {
+						"type": "String"
+					}
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": {
+							"value": "@dataset().sinkfilename",
+							"type": "Expression"
+						},
+						"folderPath": "northwind",
+						"container": "destination"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": false,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/biolayt_adf')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/destination_data')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "biolayt_adf",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "order_master",
+						"folderPath": "datamart",
+						"container": "destination"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/biolayt_adf')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/northwind')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "HttpServer1",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"file": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "HttpServerLocation",
+						"relativeUrl": {
+							"value": "@concat('neo4j-contrib/northwind-neo4j/refs/heads/master/data/',dataset().file)",
+							"type": "Expression"
+						}
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": false,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/HttpServer1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/order_details')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "biolayt_adf",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "order-details.csv",
+						"folderPath": "northwind",
+						"container": "destination"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "orderID",
+						"type": "String"
+					},
+					{
+						"name": "productID",
+						"type": "String"
+					},
+					{
+						"name": "unitPrice",
+						"type": "String"
+					},
+					{
+						"name": "quantity",
+						"type": "String"
+					},
+					{
+						"name": "discount",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/biolayt_adf')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/source')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "biolayt_adf",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"folderPath": "adworks",
+						"container": "source"
 					},
 					"columnDelimiter": ",",
 					"escapeChar": "\\",
@@ -476,6 +715,171 @@
 				"[concat(variables('factoryId'), '/datasets/source')]",
 				"[concat(variables('factoryId'), '/datasets/copyadwork_source')]",
 				"[concat(variables('factoryId'), '/datasets/adwork_dest')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Order_Master')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "Order_source",
+								"type": "DatasetReference"
+							},
+							"name": "ordersource"
+						},
+						{
+							"dataset": {
+								"referenceName": "order_details",
+								"type": "DatasetReference"
+							},
+							"name": "orderDetails"
+						},
+						{
+							"dataset": {
+								"referenceName": "customer_tbl",
+								"type": "DatasetReference"
+							},
+							"name": "customer"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "destination_data",
+								"type": "DatasetReference"
+							},
+							"name": "destination"
+						}
+					],
+					"transformations": [
+						{
+							"name": "Orders"
+						},
+						{
+							"name": "selectedColumns"
+						},
+						{
+							"name": "custOrder"
+						},
+						{
+							"name": "correctDataType",
+							"description": "Autogenerated by data preview actions"
+						},
+						{
+							"name": "orderIDsorting"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          orderID as integer,",
+						"          customerID as string,",
+						"          employeeID as string,",
+						"          orderDate as string,",
+						"          requiredDate as string,",
+						"          shippedDate as string,",
+						"          shipVia as string,",
+						"          freight as string,",
+						"          shipName as string,",
+						"          shipAddress as string,",
+						"          shipCity as string,",
+						"          shipRegion as string,",
+						"          shipPostalCode as string,",
+						"          shipCountry as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> ordersource",
+						"source(output(",
+						"          orderID as integer,",
+						"          productID as string,",
+						"          unitPrice as string,",
+						"          quantity as string,",
+						"          discount as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     limit: 10,",
+						"     ignoreNoFilesFound: false) ~> orderDetails",
+						"source(output(",
+						"          customerID as string,",
+						"          companyName as string,",
+						"          contactName as string,",
+						"          contactTitle as string,",
+						"          address as string,",
+						"          city as string,",
+						"          region as string,",
+						"          postalCode as string,",
+						"          country as string,",
+						"          phone as string,",
+						"          fax as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> customer",
+						"ordersource, orderDetails join(ordersource@orderID == orderDetails@orderID,",
+						"     joinType:'inner',",
+						"     matchType:'exact',",
+						"     ignoreSpaces: false,",
+						"     broadcast: 'auto')~> Orders",
+						"custOrder select(mapColumn(",
+						"          orderID = ordersource@orderID,",
+						"          customerID = ordersource@customerID,",
+						"          employeeID,",
+						"          orderDate,",
+						"          requiredDate,",
+						"          shippedDate,",
+						"          shipVia,",
+						"          freight,",
+						"          shipName,",
+						"          shipAddress,",
+						"          shipCity,",
+						"          shipRegion,",
+						"          shipCountry,",
+						"          productID,",
+						"          unitPrice,",
+						"          quantity,",
+						"          discount,",
+						"          companyName,",
+						"          contactName,",
+						"          city,",
+						"          region,",
+						"          phone",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> selectedColumns",
+						"Orders, customer join(ordersource@customerID == customer@customerID,",
+						"     joinType:'inner',",
+						"     matchType:'exact',",
+						"     ignoreSpaces: false,",
+						"     broadcast: 'auto')~> custOrder",
+						"selectedColumns derive(employeeID = toInteger(employeeID),",
+						"          shipVia = toInteger(shipVia),",
+						"          freight = toFloat(freight),",
+						"          productID = toInteger(productID),",
+						"          unitPrice = toFloat(unitPrice),",
+						"          quantity = toInteger(quantity),",
+						"          discount = toFloat(discount),",
+						"          orderDate = toDate(orderDate,'yyyy-MM-dd'),",
+						"          shippedDate = toDate(shippedDate,'yyyy-MM-dd'),",
+						"          requiredDate = toDate(requiredDate,'yyyy-MM-dd')) ~> correctDataType",
+						"correctDataType sort(asc(orderID, true)) ~> orderIDsorting",
+						"orderIDsorting sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> destination"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/Order_source')]",
+				"[concat(variables('factoryId'), '/datasets/order_details')]",
+				"[concat(variables('factoryId'), '/datasets/customer_tbl')]",
+				"[concat(variables('factoryId'), '/datasets/destination_data')]"
 			]
 		},
 		{
@@ -687,6 +1091,45 @@
 								}
 							]
 						}
+					},
+					{
+						"name": "transformLoadedData",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [
+							{
+								"activity": "CSV file loop",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "Order_Master",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"ordersource": {},
+									"orderDetails": {},
+									"customer": {},
+									"destination": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Coarse"
+						}
 					}
 				],
 				"policy": {
@@ -715,6 +1158,7 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/Json1')]",
+				"[concat(variables('factoryId'), '/dataflows/Order_Master')]",
 				"[concat(variables('factoryId'), '/datasets/northwind')]",
 				"[concat(variables('factoryId'), '/datasets/destination')]"
 			]
