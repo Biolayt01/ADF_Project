@@ -870,8 +870,10 @@
 						"correctDataType sort(asc(orderID, true)) ~> orderIDsorting",
 						"orderIDsorting sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
+						"     partitionFileNames:['Order_Master'],",
 						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> destination"
+						"     skipDuplicateMapOutputs: true,",
+						"     partitionBy('hash', 1)) ~> destination"
 					]
 				}
 			},
