@@ -98,10 +98,10 @@
 							},
 							"inputs": [
 								{
-									"referenceName": "copysrc",
+									"referenceName": "copyadwork_source",
 									"type": "DatasetReference",
 									"parameters": {
-										"file": {
+										"adwork_filename": {
 											"value": "@item().name",
 											"type": "Expression"
 										}
@@ -110,11 +110,11 @@
 							],
 							"outputs": [
 								{
-									"referenceName": "destination",
+									"referenceName": "adwork_dest",
 									"type": "DatasetReference",
 									"parameters": {
-										"sinkfilename": {
-											"value": "@item()",
+										"adwork_dest_filename": {
+											"value": "@item().name",
 											"type": "Expression"
 										}
 									}
@@ -125,11 +125,6 @@
 				}
 			}
 		],
-		"parameters": {
-			"file": {
-				"type": "String"
-			}
-		},
 		"annotations": [],
 		"lastPublishTime": "2026-10-22T14:24:59Z"
 	},
